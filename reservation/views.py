@@ -88,16 +88,21 @@ class ReservationCreateView(LoginRequiredMixin, CreateView):
         try:
             reservation = form.save(commit=False)
             reservation.user = self.request.user
+            if reservation.date == timezone.now().date():
+                reservation.status = 'confirmed'
+                message = f"Бронь подтверждена! Столик #{reservation.table.number}"
+            else:
+                reservation.status = 'pending'
+                message = f"Бронь создана! Подтверждение придет в день бронирования. Столик #{reservation.table.number}"
+
             reservation.save()
 
-            messages.success(
-                self.request,
-                f"Бронь успешно создана! Столик #{reservation.table.number} на {reservation.date} {reservation.start_time}"
-            )
+            messages.success(self.request, message)
             return redirect(self.success_url)
 
         except IntegrityError as e:
-            form.add_error(None, 'Произошла ошибка при сохранении. Возможно, столик на это время уже был забронирован кем-то другим. Пожалуйста, попробуйте еще раз.')
+            form.add_error(None,
+                           'Произошла ошибка при сохранении. Возможно, столик на это время уже был забронирован кем-то другим. Пожалуйста, попробуйте еще раз.')
             return self.form_invalid(form)
 
 
@@ -217,6 +222,20 @@ def hall_schema(request, hall_id):
         'grid': grid,
         'tables': tables
     })
+
+
+class ConfirmReservationView(View):
+    def get(self, request, reservation_id):
+        reservation = get_object_or_404(Reservation, id=reservation_id)
+
+        if reservation.date == date.today() and reservation.status == 'pending':
+            reservation.status = 'confirmed'
+            reservation.save()
+            messages.success(request, "Бронь успешно подтверждена!")
+        else:
+            messages.error(request, "Нельзя подтвердить эту бронь")
+
+        return redirect('reservation:profile')
 
 
 class FeedbackView(FormView):

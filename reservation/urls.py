@@ -4,7 +4,7 @@ from reservation import views
 from reservation.apps import ReservationConfig
 from reservation.views import home, ReservationDeleteView, ReservationUpdateView, ReservationCreateView, \
     ReservationListView, AboutView, ContactView, reservation_welcome, ProfileView, ReservationDetailView, \
-    TablesByHallView, HallListView, FeedbackView, FeedbackThanksView
+    TablesByHallView, HallListView, FeedbackView, FeedbackThanksView, ConfirmReservationView
 
 app_name = ReservationConfig.name
 
@@ -20,6 +20,8 @@ urlpatterns = [
     path('hall/<int:hall_id>/schema/', views.hall_schema, name='hall_schema'),
     path('halls/', HallListView.as_view(), name='hall_list'),
     path('reservation_welcome/', reservation_welcome, name='reservation_welcome'),
+    path('confirm-reservation/<int:reservation_id>/',
+         ConfirmReservationView.as_view(), name='confirm_reservation'),
     path("about/", AboutView.as_view(), name="about"),
     path("profile/", ProfileView.as_view(), name="profile"),
     path("feedback/", FeedbackView.as_view(), name="feedback"),

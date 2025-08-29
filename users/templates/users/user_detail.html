@@ -1,0 +1,120 @@
+{% extends "reservation/home.html" %}
+
+{% block title %}Профиль пользователя - {{ user_obj.email }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="display-5">👤 Профиль пользователя</h1>
+            <span class="badge bg-primary fs-6">{{ user_obj.email }}</span>
+        </div>
+
+        <!-- Информация о пользователе -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Данные пользователя</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>ID:</strong> {{ user_obj.id }}</p>
+                        <p><strong>Email:</strong> {{ user_obj.email }}</p>
+                        {% if user_obj.first_name %}
+                        <p><strong>Имя:</strong> {{ user_obj.first_name }}</p>
+                        {% endif %}
+                        {% if user_obj.last_name %}
+                        <p><strong>Фамилия:</strong> {{ user_obj.last_name }}</p>
+                        {% endif %}
+                        {% if user_obj.phone %}
+                        <p><strong>Телефон:</strong> {{ user_obj.phone }}</p>
+                        {% else %}
+                        <p><strong>Телефон:</strong> <span class="text-muted">Не указан</span></p>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Дата регистрации:</strong> {{ user_obj.date_joined|date:"d.m.Y H:i" }}</p>
+                        <p><strong>Последний вход:</strong> {{ user_obj.last_login|date:"d.m.Y H:i"|default:"Никогда" }}</p>
+                        <p><strong>Статус:</strong>
+                            <span class="badge {% if user_obj.is_superuser %}bg-danger{% elif user_obj.is_staff %}bg-warning{% else %}bg-success{% endif %}">
+                                {% if user_obj.is_superuser %}Суперпользователь{% elif user_obj.is_staff %}Персонал{% else %}Пользователь{% endif %}
+                            </span>
+                        </p>
+                        <p><strong>Активен:</strong> 
+                            <span class="badge {% if user_obj.is_active %}bg-success{% else %}bg-danger{% endif %}">
+                                {{ user_obj.is_active|yesno:"Да,Нет" }}
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Статистика -->
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">📅 Всего броней</h5>
+                        <h3 class="text-primary">{{ reservations_count }}</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">👥 Как гость</h5>
+                        <h3 class="text-info">{{ user_obj.guest_reservations.count }}</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">👔 Как staff</h5>
+                        <h3 class="text-warning">{{ user_obj.staff_reservations.count }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Действия админа -->
+        {% if request.user.is_staff or request.user.is_superuser %}
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">⚙️ Действия администратора</h5>
+            </div>
+            <div class="card-body">
+                <div class="btn-group" role="group">
+                    <a href="{% url 'users:user_update' user_obj.pk %}" class="btn btn-outline-primary">
+                        ✏️ Редактировать
+                    </a>
+                    <a href="{% url 'users:user_delete' user_obj.pk %}" class="btn btn-outline-danger">
+                        🗑️ Удалить
+                    </a>
+                    {% if user_obj.is_active %}
+                    <a href="#" class="btn btn-outline-warning">
+                        ⚠️ Деактивировать
+                    </a>
+                    {% else %}
+                    <a href="#" class="btn btn-outline-success">
+                        ✅ Активировать
+                    </a>
+                    {% endif %}
+                    <a href="{% url 'users:users_list' %}" class="btn btn-outline-secondary">
+                        ← К списку пользователей
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Кнопка назад -->
+        <div class="text-center mt-4">
+            <a href="{% url 'users:users_list' %}" class="btn btn-secondary btn-lg">
+                ← Назад к списку пользователей
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

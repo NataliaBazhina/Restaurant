@@ -1,0 +1,94 @@
+{% extends "reservation/home.html" %}
+{% load static %}
+{% block title %}Схема зала - {{ hall.name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Схема зала: {{ hall.name }}</h1>
+        <a href="{% url 'reservation:reservations_create' %}" class="btn btn-orange btn-lg">
+            Забронировать столик
+        </a>
+        <a href="{% url 'reservation:reservations_create' %}" class="btn btn-orange btn-lg">Продолжить бронирование</a>
+    </div>
+
+    {% if hall.description %}
+    <div class="alert alert-info">
+        {{ hall.description }}
+    </div>
+    {% endif %}
+
+    <div class="hall-schema">
+        {% for row in grid %}
+        <div class="hall-row">
+            {% for table in row %}
+            {% if table %}
+            <div class="table-card {% if not table.is_active %}table-inactive{% endif %}"
+                 data-table-id="{{ table.id }}"
+                 title="Стол {{ table.number }} - {{ table.capacity }} человек{% if not table.is_active %} (Недоступен){% endif %}">
+                <div class="table-number">Стол {{ table.number }}</div>
+                <div class="table-capacity">{{ table.capacity }} чел.</div>
+                {% if not table.is_active %}
+                <div class="table-status">Недоступен</div>
+                {% endif %}
+            </div>
+            {% else %}
+            <div class="empty-space"></div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+.hall-schema {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+.hall-row {
+    display: flex;
+    margin-bottom: 10px;
+}
+.table-card {
+    width: 100px;
+    height: 80px;
+    margin: 5px;
+    background: #28a745;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+.table-card:hover {
+    transform: scale(1.05);
+}
+.table-inactive {
+    background: #6c757d !important;
+}
+.empty-space {
+    width: 100px;
+    height: 80px;
+    margin: 5px;
+    background: #dee2e6;
+    border-radius: 8px;
+}
+.table-number {
+    font-weight: bold;
+    font-size: 14px;
+}
+.table-capacity {
+    font-size: 12px;
+}
+.table-status {
+    font-size: 10px;
+    color: #ff6b6b;
+}
+</style>
+{% endblock %}

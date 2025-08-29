@@ -1,0 +1,44 @@
+{% extends 'reservation/home.html' %}
+{% load static %}
+
+{% block title %}Обратная связь{% endblock %}
+
+{% block content %}
+
+<div class="feedback-fullscreen">
+  <div class="feedback-form-container">
+    <h2>Обратная связь</h2>
+
+    {% if messages %}
+      <div class="alert alert-success">
+        {% for message in messages %}
+          {{ message }}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <form method="post" action="{% url 'reservation:feedback' %}">
+      {% csrf_token %}
+
+      {% for field in form %}
+        <div class="form-group">
+          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+          {% if field.help_text %}
+            <small class="form-text text-muted">{{ field.help_text }}</small>
+          {% endif %}
+          {% for error in field.errors %}
+            <div class="invalid-feedback" style="display: block; color: #dc3545;">
+              {{ error }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+
+      <div class="d-grid mt-3">
+        <button type="submit" class="btn btn-orange btn-lg">Отправить</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

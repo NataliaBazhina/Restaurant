@@ -1,0 +1,93 @@
+{% extends "reservation/home.html" %}
+{% load static %}
+{% block title %}Залы - Ресторан{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="text-center mb-5">
+        <h1>Залы</h1>
+        <p class="text-muted">Выберите подходящий зал для вашего мероприятия</p>
+    </div>
+
+    <div class="row">
+        {% for hall in halls %}
+        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-4">
+            <div class="card h-100">
+                {% if hall.image %}
+                <img src="{{ hall.image.url }}" class="card-img-top" alt="{{ hall.name }}" style="height: 250px; object-fit: cover;">
+                {% else %}
+                <div class="bg-light d-flex align-items-center justify-content-center" style="height: 250px;">
+                    <span class="text-muted">Нет изображения</span>
+                </div>
+                {% endif %}
+
+                <div class="card-body">
+                    <h5 class="card-title">{{ hall.name }}</h5>
+                    <p class="card-text">{{ hall.description|default:"Описание отсутствует" }}</p>
+
+                    <!-- Размеры зала -->
+                    <div class="mb-2">
+                        <small class="text-muted">
+                            Размер: {{ hall.width }}×{{ hall.height }} столиков
+                        </small>
+                    </div>
+
+                    <!-- Количество столиков и общая вместимость -->
+                    <div class="mb-3">
+                        <small class="text-muted">
+                            Столиков: {{ hall.tables.count }}
+                        </small>
+                        <br>
+                        <small class="text-muted">
+                            Общая вместимость: {{ hall.total_capacity }} гостей
+                        </small>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info text-center">
+                <p>Залы временно недоступны. Пожалуйста, проверьте позже.</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .card {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        border: none;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-img-top {
+        border-radius: 8px 8px 0 0;
+    }
+
+    .card-body {
+        padding: 1.5rem;
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 0.75rem;
+    }
+
+    .card-text {
+        color: #6c757d;
+        line-height: 1.5;
+        margin-bottom: 1rem;
+    }
+</style>
+{% endblock %}

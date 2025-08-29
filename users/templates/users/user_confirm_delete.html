@@ -1,0 +1,51 @@
+{% extends "reservation/home.html" %}
+
+{% block title %}Удаление аккаунта{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title text-center"> Удаление аккаунта</h3>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-danger" role="alert">
+                        <h5 class="alert-heading">⚠️ Внимание!</h5>
+                        <p class="mb-0">
+                            Вы уверены, что хотите удалить свой аккаунт? 
+                            Это действие нельзя отменить. Все ваши данные и бронирования будут удалены.
+                        </p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h5>Информация об аккаунте:</h5>
+                        <ul class="list-group">
+                            <li class="list-group-item">Email: <strong>{{ object.email }}</strong></li>
+                            {% if object.first_name %}
+                            <li class="list-group-item">Имя: <strong>{{ object.first_name }}</strong></li>
+                            {% endif %}
+                            {% if object.last_name %}
+                            <li class="list-group-item">Фамилия: <strong>{{ object.last_name }}</strong></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-danger btn-lg">
+                                🗑️ Да, удалить аккаунт
+                            </button>
+                            <a href="{% url 'reservation:profile' %}" class="btn btn-secondary btn-lg">
+                                ↩️ Отмена
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

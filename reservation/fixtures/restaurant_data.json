@@ -1,0 +1,382 @@
+[
+{
+    "model": "reservation.hall",
+    "pk": 1,
+    "fields": {
+        "name": "Основной зал",
+        "description": "Главный зал ресторана с панорамными окнами и уютной атмосферой. Идеален для романтических ужинов и семейных обедов.",
+        "image": "halls/main_hall.jpg",
+        "width": 8,
+        "height": 6
+    }
+},
+{
+    "model": "reservation.hall",
+    "pk": 2,
+    "fields": {
+        "name": "Банкетный зал",
+        "description": "Камерный банкетный зал для мероприятий.",
+        "image": "halls/banquet_hall.jpg",
+        "width": 1,
+        "height": 1
+    }
+},
+{
+    "model": "reservation.hall",
+    "pk": 3,
+    "fields": {
+        "name": "Летняя веранда",
+        "description": "Открытая веранда с видом на сад и фонтаны. Работает в теплый сезон с мая по сентябрь.",
+        "image": "halls/terrace.jpg",
+        "width": 6,
+        "height": 4
+    }
+},
+{
+    "model": "reservation.hall",
+    "pk": 4,
+    "fields": {
+        "name": "Детский зал",
+        "description": "Зал с большой игровой комнатой, в которой всегда присутствует няня, а также используется видеотрансляция в режиме реального времени на телевизоры в зале. Максимальмальный комфорт и спокойствие родителей в сочетании с организованным досугом детей. Детское меню.",
+        "image": "halls/kids_hall.jpg",
+        "width": 5,
+        "height": 4
+    }
+},
+{
+    "model": "reservation.table",
+    "pk": 1,
+    "fields": {
+        "hall": 1,
+        "number": "1",
+        "capacity": 2,
+        "x_position": 0,
+        "y_position": 0,
+        "is_active": true
+    }
+},
+{
+    "model": "reservation.table",
+    "pk": 2,
+    "fields": {
+        "hall": 1,
+        "number": "2",
+        "capacity": 2,
+        "x_position": 2,
+        "y_position": 0,
+        "is_active": true
+    }
+},
+{
+    "model": "reservation.table",
+    "pk": 3,
+    "fields": {
+        "hall": 1,
+        "number": "3",
+        "capacity": 4,
+        "x_position": 4,
+        "y_position": 0,
+        "is_active": true
+    }
+},
+{
+    "model": "reservation.table",
+    "pk": 4,
+    "fields": {
+        "hall": 1,
+        "number": "4",
+        "capacity": 4,
+        "x_position": 6,
+        "y_position": 0,
+        "is_active": true
+    }
+},
+{
+    "model": "reservation.table",
+    "pk": 5,
+    "fields": {
+        "hall": 1,
+        "number": "5",
+        "capacity": 6,
+        "x_position": 0,
+        "y_position": 2,
+        "is_active": true
+    }
+},
+{
+    "model": "reservation.table",
+    "pk": 6,
+    "fields": {
+        "hall": 1,
+        "number": "6",
+        "capacity": 6,
+        "x_position": 3,
+        "y_position": 2,
+        "is_active": true
+    }
+},
+{
+    "model": "reservation.table",
+    "pk": 7,
+    "fields": {
+        "hall": 1,
+        "number": "7",
+        "capacity": 8,
+        "x_position": 6,
+        "y_position": 2,
+        "is_active": true
+    }
+},
+{
+    "model": "reservation.table",
+    "pk": 8,
+    "fields": {
+        "hall": 1,
+        "number": "8",
+        "capacity": 2,
+        "x_position": 0,
+        "y_position": 4,
+        "is_active": true
+    }
+},
+{
+    "model": "reservation.table",
+    "pk": 9,
+    "fields": {
+        "hall": 1,
+        "number": "9",
+        "capacity": 2,
+        "x_position": 2,
+        "y_position": 4,
+        "is_active": true
+    }
+},
+{
+    "model": "reservation.table",
+    "pk": 10,
+    "fields": {
+        "hall": 1,
+        "number": "10",
+        "capacity": 4,
+        "x_position": 4,
+        "y_position": 4,
+        "is_active": true
+    }
+},
+{
+    "model": "reservation.table",
+    "pk": 11,
+    "fields": {
+        "hall": 1,
+        "number": "11",
+        "capacity": 4,
+        "x_position": 6,
+        "y_position": 4,
+        "is_active": true
+    }
+},
+{
+    "model": "reservation.table",
+    "pk": 12,
+    "fields": {
+        "hall": 1,
+        "number": "12",
+        "capacity": 6,
+        "x_position": 0,
+        "y_position": 5,
+        "is_active": true
+    }
+},
+{
+    "model": "reservation.table",
+    "pk": 13,
+    "fields": {
+        "hall": 1,
+        "number": "13",
+        "capacity": 6,
+        "x_position": 3,
+        "y_position": 5,
+        "is_active": true
+    }
+},
+{
+    "model": "reservation.table",
+    "pk": 14,
+    "fields": {
+        "hall": 2,
+        "number": "B1",
+        "capacity": 12,
+        "x_position": 0,
+        "y_position": 0,
+        "is_active": true
+    }
+},
+{
+    "model": "reservation.table",
+    "pk": 15,
+    "fields": {
+        "hall": 3,
+        "number": "L1",
+        "capacity": 4,
+        "x_position": 0,
+        "y_position": 0,
+        "is_active": true
+    }
+},
+{
+    "model": "reservation.table",
+    "pk": 16,
+    "fields": {
+        "hall": 3,
+        "number": "L2",
+        "capacity": 4,
+        "x_position": 2,
+        "y_position": 0,
+        "is_active": true
+    }
+},
+{
+    "model": "reservation.table",
+    "pk": 17,
+    "fields": {
+        "hall": 3,
+        "number": "L3",
+        "capacity": 4,
+        "x_position": 4,
+        "y_position": 0,
+        "is_active": true
+    }
+},
+{
+    "model": "reservation.table",
+    "pk": 18,
+    "fields": {
+        "hall": 3,
+        "number": "L4",
+        "capacity": 2,
+        "x_position": 0,
+        "y_position": 2,
+        "is_active": true
+    }
+},
+{
+    "model": "reservation.table",
+    "pk": 19,
+    "fields": {
+        "hall": 3,
+        "number": "L5",
+        "capacity": 2,
+        "x_position": 2,
+        "y_position": 2,
+        "is_active": true
+    }
+},
+{
+    "model": "reservation.table",
+    "pk": 20,
+    "fields": {
+        "hall": 3,
+        "number": "L6",
+        "capacity": 2,
+        "x_position": 4,
+        "y_position": 2,
+        "is_active": true
+    }
+},
+{
+    "model": "reservation.table",
+    "pk": 21,
+    "fields": {
+        "hall": 3,
+        "number": "L7",
+        "capacity": 6,
+        "x_position": 0,
+        "y_position": 3,
+        "is_active": true
+    }
+},
+{
+    "model": "reservation.table",
+    "pk": 22,
+    "fields": {
+        "hall": 3,
+        "number": "L8",
+        "capacity": 6,
+        "x_position": 3,
+        "y_position": 3,
+        "is_active": true
+    }
+},
+{
+    "model": "reservation.table",
+    "pk": 23,
+    "fields": {
+        "hall": 4,
+        "number": "V1",
+        "capacity": 12,
+        "x_position": 0,
+        "y_position": 0,
+        "is_active": true
+    }
+},
+{
+    "model": "reservation.table",
+    "pk": 24,
+    "fields": {
+        "hall": 4,
+        "number": "V2",
+        "capacity": 8,
+        "x_position": 3,
+        "y_position": 0,
+        "is_active": true
+    }
+},
+{
+    "model": "reservation.table",
+    "pk": 25,
+    "fields": {
+        "hall": 4,
+        "number": "V3",
+        "capacity": 6,
+        "x_position": 0,
+        "y_position": 2,
+        "is_active": true
+    }
+},
+{
+    "model": "reservation.table",
+    "pk": 26,
+    "fields": {
+        "hall": 4,
+        "number": "V4",
+        "capacity": 4,
+        "x_position": 3,
+        "y_position": 2,
+        "is_active": true
+    }
+},
+{
+    "model": "reservation.table",
+    "pk": 27,
+    "fields": {
+        "hall": 4,
+        "number": "V5",
+        "capacity": 2,
+        "x_position": 0,
+        "y_position": 3,
+        "is_active": true
+    }
+},
+{
+    "model": "reservation.table",
+    "pk": 28,
+    "fields": {
+        "hall": 4,
+        "number": "V6",
+        "capacity": 2,
+        "x_position": 2,
+        "y_position": 3,
+        "is_active": true
+    }
+}
+]

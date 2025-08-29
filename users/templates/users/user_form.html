@@ -1,0 +1,96 @@
+{% extends 'reservation/home.html' %}
+
+{% block title %}Регистрация{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title text-center">Регистрация</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <!-- Поля формы -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">{{ form.first_name.label }} *</label>
+                                    {{ form.first_name }}
+                                    {% if form.first_name.help_text %}
+                                    <div class="form-text">{{ form.first_name.help_text }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">{{ form.last_name.label }}</label>
+                                    {{ form.last_name }}
+                                    {% if form.last_name.help_text %}
+                                    <div class="form-text">{{ form.last_name.help_text }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">{{ form.email.label }} *</label>
+                            {{ form.email }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">{{ form.phone.label }} *</label>
+                            {{ form.phone }}
+                            {% if form.phone.help_text %}
+                            <div class="form-text">{{ form.phone.help_text }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">{{ form.password1.label }} *</label>
+                            {{ form.password1 }}
+                            <!-- Простая текстовая подсказка про пароль -->
+                            <div class="form-text">
+                                🔐 Пароль должен содержать: минимум 8 символов, буквы и цифры
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">{{ form.password2.label }} *</label>
+                            {{ form.password2 }}
+                            <div class="form-text">Повторите тот же пароль для подтверждения</div>
+                        </div>
+
+                        <!-- Информационное сообщение -->
+                        <div class="alert alert-info mt-4" role="alert">
+                            <h5 class="alert-heading">📧 Подтверждение регистрации</h5>
+                            <p class="mb-0">
+                                После регистрации на указанную почту придет письмо с ссылкой для подтверждения.
+                                Для активации аккаунта необходимо пройти по ссылке из письма.
+                            </p>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                ✅ Зарегистрироваться
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="text-center mt-3">
+                        <p class="text-muted">
+                            Уже есть аккаунт?
+                            <a href="{% url 'users:login' %}" class="text-decoration-none">
+                                Войдите здесь
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

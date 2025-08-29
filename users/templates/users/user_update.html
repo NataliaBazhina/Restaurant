@@ -1,0 +1,69 @@
+{% extends 'reservation/home.html' %}
+
+{% block title %}Редактирование профиля{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title text-center"> Редактирование профиля</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <!-- Поля формы -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">{{ form.first_name.label }} *</label>
+                                    {{ form.first_name }}
+                                    {% if form.first_name.help_text %}
+                                    <div class="form-text">{{ form.first_name.help_text }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">{{ form.last_name.label }}</label>
+                                    {{ form.last_name }}
+                                    {% if form.last_name.help_text %}
+                                    <div class="form-text">{{ form.last_name.help_text }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">{{ form.email.label }} *</label>
+                            {{ form.email }}
+                            {% if form.email.help_text %}
+                            <div class="form-text">{{ form.email.help_text }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">{{ form.phone.label }} *</label>
+                            {{ form.phone }}
+                            {% if form.phone.help_text %}
+                            <div class="form-text">{{ form.phone.help_text }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                💾 Сохранить изменения
+                            </button>
+                            <a href="{% url 'reservation:profile' %}" class="btn btn-secondary btn-lg">
+                                ↩️ Отмена
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

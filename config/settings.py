@@ -1,18 +1,18 @@
+import os.path
 from pathlib import Path
+from dotenv import load_dotenv
 
-from django.conf.global_settings import STATICFILES_DIRS
+load_dotenv()
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-SECRET_KEY = "django-insecure-2a*r$gzo0e7_)du043#m6t-+tj2x1gff9(&y&1febgjj@&7f*r"
+SECRET_KEY = os.getenv("SECRET_KEY")
 
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-DEBUG = True
-
-ALLOWED_HOSTS = ['*']
-
-
+ALLOWED_HOSTS = ["*"]
 
 
 INSTALLED_APPS = [
@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "reservation",
+    "users",
 ]
 
 MIDDLEWARE = [
@@ -55,14 +56,16 @@ TEMPLATES = [
 WSGI_APPLICATION = "config.wsgi.application"
 
 
-
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": os.getenv("DB_NAME"),
+        "USER": os.getenv("DB_USER"),
+        "PASSWORD": os.getenv("DB_PASSWORD"),
+        "HOST": os.getenv("DB_HOST"),
+        "PORT": os.getenv("DB_PORT"),
     }
 }
-
 
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -81,21 +84,40 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+LANGUAGE_CODE = 'ru-ru'
 
-
-LANGUAGE_CODE = "en-us"
-
-TIME_ZONE = "UTC"
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
 USE_TZ = True
 
 
-
 STATIC_URL = "static/"
 
-STATICFILES_DIRS = (BASE_DIR / 'static',)
+STATICFILES_DIRS = (BASE_DIR / "static",)
+
+MEDIA_URL = "/media/"
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
 
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+AUTH_USER_MODEL = 'users.User'
+
+LOGIN_REDIRECT_URL = '/'
+
+LOGOUT_REDIRECT_URL = '/'
+
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_PORT = os.getenv('EMAIL_PORT')
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS',False) == 'True'
+EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL',False) == 'True'
+ADMIN_EMAIL = os.getenv('ADMIN_EMAIL', '')
+
+SERVER_EMAIL = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

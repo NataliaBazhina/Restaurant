@@ -1,0 +1,42 @@
+{% extends "reservation/home.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Бронирование #{{ reservation.pk }}</h4>
+                    <span class="badge bg-{{ reservation.status }}">
+                        {{ reservation.get_status_display }}
+                    </span>
+                </div>
+                
+                <div class="card-body">
+                    <h5>Информация о бронировании</h5>
+                    
+                    <p><strong>Дата:</strong> {{ reservation.date }}</p>
+                    <p><strong>Время:</strong> {{ reservation.start_time }}</p>
+                    <p><strong>Длительность:</strong> {{ reservation.duration }} часов</p>
+                    <p><strong>Гостей:</strong> {{ reservation.guests_count }}</p>
+                    
+                    <h5 class="mt-4">Столик</h5>
+                    <p><strong>Номер:</strong> {{ reservation.table.number }}</p>
+                    <p><strong>Вместимость:</strong> до {{ reservation.table.capacity }} человек</p>
+                    
+                    {% if reservation.event %}
+                    <h5 class="mt-4">Особое мероприятие</h5>
+                    <p>{{ reservation.event }}</p>
+                    {% endif %}
+                </div>
+                
+                <div class="card-footer">
+                    <a href="{% url 'reservation:reservations_list' %}" class="btn btn-secondary">
+                        ← Назад к списку
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

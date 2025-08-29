@@ -1,0 +1,16 @@
+{% extends 'reservation/home.html' %}
+{% load static %}
+
+{% block title %}Спасибо за обратную связь{% endblock %}
+
+{% block content %}
+
+<div style="min-height: 100vh; display: flex; justify-content: center; align-items: center; background: url('{% static 'images/rest.empty.png' %}') no-repeat center center/cover; padding: 20px;">
+  <div style="background-color: #dee2e6; padding: 2rem; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.3); max-width: 500px; text-align: center;">
+    <h2 style="margin-bottom: 1.5rem;">Благодарим за обратную связь!</h2>
+    <p style="margin-bottom: 1.5rem;">Мы всегда читаем ваши отзывы и предложения по улучшению работы.</p>
+    <a href="{% url 'reservation:home' %}" style="background-color: #ff7f50; border-color: #ff7f50; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none; display: inline-block; margin-top: 1rem;">Вернуться на главную</a>
+  </div>
+</div>
+
+{% endblock %}

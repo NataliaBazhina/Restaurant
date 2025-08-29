@@ -1,0 +1,55 @@
+{% extends "reservation/home.html" %}
+
+{% block title %}Отмена бронирования{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title text-center">Отмена бронирования</h3>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning" role="alert">
+                        <h5 class="alert-heading">Внимание!</h5>
+                        <p class="mb-0">
+                            Вы уверены, что хотите отменить данную бронь?
+                        </p>
+                    </div>
+
+                    <div class="card-body">
+                    <h5>Информация о бронировании</h5>
+
+                    <p><strong>Дата:</strong> {{ reservation.date }}</p>
+                    <p><strong>Время:</strong> {{ reservation.start_time }}</p>
+                    <p><strong>Длительность:</strong> {{ reservation.duration }} часов</p>
+                    <p><strong>Гостей:</strong> {{ reservation.guests_count }}</p>
+
+                    <h5 class="mt-4">Столик</h5>
+                    <p><strong>Номер:</strong> {{ reservation.table.number }}</p>
+                    <p><strong>Вместимость:</strong> до {{ reservation.table.capacity }} человек</p>
+
+                    {% if reservation.event %}
+                    <h5 class="mt-4">Особое мероприятие</h5>
+                    <p>{{ reservation.event }}</p>
+                    {% endif %}
+                    </div>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-warning btn-lg">
+                                Да, отменить бронь
+                            </button>
+                            <a href="{% url 'reservation:profile' %}" class="btn btn-secondary btn-lg">
+                                Вернуться назад
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

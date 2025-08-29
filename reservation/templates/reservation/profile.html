@@ -1,0 +1,212 @@
+{% extends "reservation/home.html" %}
+
+{% block title %}Личный кабинет{% endblock %}
+
+{% block content %}
+
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {% endfor %}
+{% endif %}
+
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="display-5">Личный кабинет</h1>
+            <span class="badge bg-primary fs-6">{{ user.email }}</span>
+        </div>
+
+        <!-- Информация о пользователе -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">👤 Мои данные</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Email:</strong> {{ user.email }}</p>
+                        {% if user.first_name %}
+                        <p><strong>Имя:</strong> {{ user.first_name }}</p>
+                        {% endif %}
+                        {% if user.last_name %}
+                        <p><strong>Фамилия:</strong> {{ user.last_name }}</p>
+                        {% endif %}
+                        {% if user.phone %}
+                        <p><strong>Телефон:</strong> {{ user.phone }}</p>
+                        {% else %}
+                        <p><strong>Телефон:</strong> <span class="text-muted">Не указан</span></p>
+                        {% endif %}
+                        <p><strong>Дата регистрации:</strong> {{ user.date_joined|date:"d.m.Y" }}</p>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <!-- Кнопки CRUD -->
+                        <div class="d-flex flex-column gap-2 align-items-end">
+                            <a href="{% url 'users:user_update' user.pk %}" class="btn btn-outline-primary">
+                                ✏️ Редактировать профиль
+                            </a>
+                            <a href="{% url 'users:user_delete' user.pk %}" class="btn btn-outline-danger">
+                                🗑️ Удалить аккаунт
+                            </a>
+                            <a href="{% url 'users:logout' %}" class="btn btn-outline-secondary">
+                                👋 Выйти
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Статистика -->
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">📅 Всего броней</h5>
+                        <h3 class="text-primary">{{ user.reservations.count }}</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">✅ Активные</h5>
+                        <h3 class="text-success">{{ active_reservations.count }}</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">📋 Завершенные</h5>
+                        <h3 class="text-secondary">{{ past_reservations.count }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Активные бронирования -->
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">📅 Активные бронирования</h5>
+            </div>
+            <div class="card-body">
+                {% if active_reservations %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Дата</th>
+                                <th>Время</th>
+                                <th>Столик</th>
+                                <th>Гостей</th>
+                                <th>Статус</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for reservation in active_reservations %}
+                            <tr>
+                                <td>{{ reservation.date }}</td>
+                                <td>{{ reservation.start_time }}</td>
+                                <td>№{{ reservation.table.number }}</td>
+                                <td>{{ reservation.guests_count }}</td>
+                                <td>
+                                    <span class="badge {% if reservation.status == 'confirmed' %}bg-success{% elif reservation.status == 'completed' %}bg-info{% else %}bg-warning{% endif %}">
+                                        {{ reservation.get_status_display }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="btn-group btn-group-sm">
+                                        <a href="{% url 'reservation:reservations_update' reservation.pk %}" class="btn btn-outline-primary" title="Редактировать">
+                                            ✏️
+                                        </a>
+                                        <a href="{% url 'reservation:reservations_delete' reservation.pk %}" class="btn btn-outline-danger" title="Удалить">
+                                            🗑️
+                                        </a>
+                                        <a href="{% url 'reservation:reservations_detail' reservation.pk %}" class="btn btn-outline-info" title="Подробнее">
+                                            👁️
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-4">
+                    <p class="text-muted">Нет активных бронирований</p>
+                    <a href="{% url 'reservation:reservations_create' %}" class="btn btn-primary">
+                        🍽️ Забронировать столик
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Прошлые бронирования -->
+        {% if past_reservations %}
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">📋 История бронирований</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Дата</th>
+                                <th>Время</th>
+                                <th>Столик</th>
+                                <th>Гостей</th>
+                                <th>Статус</th>
+                                <th>Детали</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for reservation in past_reservations %}
+                            <tr>
+                                <td>{{ reservation.date }}</td>
+                                <td>{{ reservation.start_time }}</td>
+                                <td>№{{ reservation.table.number }}</td>
+                                <td>{{ reservation.guests_count }}</td>
+                                <td>
+                                    <span class="badge bg-secondary">
+                                        {{ reservation.get_status_display }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <a href="{% url 'reservation:reservations_detail' reservation.pk %}" class="btn btn-sm btn-outline-info">
+                                        👁️ Подробнее
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Быстрые действия -->
+        <div class="mt-4 text-center">
+            <div class="btn-group" role="group">
+                <a href="{% url 'reservation:reservations_create' %}" class="btn btn-primary btn-lg">
+                    🍽️ Новое бронирование
+                </a>
+                <a href="{% url 'reservation:reservations_list' %}" class="btn btn-outline-primary btn-lg">
+                    📋 Все бронирования
+                </a>
+                <a href="{% url 'users:user_update' user.pk %}" class="btn btn-outline-secondary btn-lg">
+                    👤 Редактировать профиль
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -264,7 +264,6 @@ class FeedbackView(FormView):
             [settings.ADMIN_EMAIL],
             fail_silently=False,
         )
-        messages.success(self.request, "Спасибо за ваше сообщение!")
         return super().form_valid(form)
 
 

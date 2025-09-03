@@ -1,6 +1,334 @@
 {% extends "reservation/home.html" %}
+{% load static %}
 
 {% block content %}
-<h2>О нашем ресторане</h2>
-<p>Текст о ресторане...</p>
+<div class="about-container dark-theme">
+    <h2>О нашем ресторане</h2>
+
+    <section class="history-section">
+        <h3>Наша история</h3>
+        <div class="content-wrapper">
+            <div class="text-content">
+                <p>Наш ресторан открыл свои двери в 2010 году с простой целью — предложить гостям сочетание уютной атмосферы, вкусной еды и семейного досуга. За более чем десятилетие мы выросли из небольшого семейного заведения в один из самых популярных ресторанов города, сохранив при этом теплую, душевную атмосферу и внимательное отношение к каждому гостю.</p>
+                <p>Наша кухня — это гармоничное сочетание традиционных рецептов и современных тенденций. Для детей мы создали особое меню с яркой креативной подачей. Мы тщательно отбираем продукты, работаем с локальными фермерами и постоянно совершенствуем наши блюда, чтобы предложить вам по-настоящему уникальный вкус.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="mission-section">
+        <h3>Миссия и ценности</h3>
+        <p>Наша миссия — создавать незабываемые моменты через искусство кулинарии, объединяя людей за столом, наполненным вкусной едой, теплым общением и радостью.</p>
+
+        <div class="values-grid">
+            <div class="value-card">
+                <h4>Свежесть и качество</h4>
+                <p>Мы используем только свежие, сезонные продукты от проверенных поставщиков</p>
+            </div>
+            <div class="value-card">
+                <h4>Мастерство</h4>
+                <p>Наши повара постоянно совершенствуют свои навыки и создают кулинарные шедевры</p>
+            </div>
+            <div class="value-card">
+                <h4>Гостеприимство</h4>
+                <p>Мы создаем атмосферу, где каждый гость чувствует себя как дома</p>
+            </div>
+            <div class="value-card">
+                <h4>Устойчивое развитие</h4>
+                <p>Мы заботимся об окружающей среде и снижаем экологический след</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="team-section">
+        <h3>Наша команда</h3>
+        <p>За всеми вкусными блюдами и безупречным обслуживанием стоит команда профессионалов, которые с любовью делают свое дело.</p>
+
+        <div class="team-grid">
+            <div class="team-card">
+                <div class="team-photo">
+                    <img src="{% get_media_prefix %}personal/director.jpg" alt="Анна Иванова - директор ресторана">
+                </div>
+                <div class="team-info">
+                    <h4>Анна Бажина</h4>
+                    <p class="position">Директор</p>
+                    <p>Управляет рестораном с момента его основания. Обладает исключительным вкусом и вниманием к деталям, любит детей.</p>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-photo">
+                    <img src="{% get_media_prefix %}personal/head-chef.jpg" alt="Дмитрий Петров - шеф-повар">
+                </div>
+                <div class="team-info">
+                    <h4>Дмитрий Погодин</h4>
+                    <p class="position">Шеф-повар</p>
+                    <p>Опыт работы более 15 лет. Проходил стажировку в лучших ресторанах Франции и Италии.</p>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-photo">
+                    <img src="{% get_media_prefix %}personal/sous-chef.jpg" alt="Мария Сидорова - су-шеф">
+                </div>
+                <div class="team-info">
+                    <h4>Мария Осипова</h4>
+                    <p class="position">Су-шеф</p>
+                    <p>Специализируется на авторских десертах. Ее творения — настоящие произведения искусства.</p>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-photo">
+                    <img src="{% get_media_prefix %}personal/sommelier.jpg" alt="Алексей Козлов - сомелье">
+                </div>
+                <div class="team-info">
+                    <h4>Алексей Соколов</h4>
+                    <p class="position">Сомелье</p>
+                    <p>Сертифицированный эксперт по винам. Поможет подобрать идеальную пару к любому блюду.</p>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-photo">
+                    <img src="{% get_media_prefix %}personal/pastry-chef.jpg" alt="Ольга Новикова - кондитер">
+                </div>
+                <div class="team-info">
+                    <h4>Ольга Новикова</h4>
+                    <p class="position">Кондитер</p>
+                    <p>Автор изысканных десертов, которые стали визитной карточкой нашего ресторана.</p>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-photo">
+                    <img src="{% get_media_prefix %}personal/manager.jpg" alt="Иван Сергеев - менеджер">
+                </div>
+                <div class="team-info">
+                    <h4>Иван Андреев</h4>
+                    <p class="position">Менеджер</p>
+                    <p>Обеспечивает безупречную работу ресторана и заботится о комфорте наших гостей.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<style>
+/* Основные стили для темной темы */
+.dark-theme {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+.about-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Georgia', serif;
+    line-height: 1.6;
+}
+
+.about-container h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #ffffff;
+    font-size: 2.5rem;
+    font-weight: 700;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.about-container h2:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: #d4a373;
+}
+
+.about-container h3 {
+    color: #ffffff;
+    margin: 50px 0 25px;
+    font-size: 1.8rem;
+    font-weight: 600;
+    border-left: 4px solid #d4a373;
+    padding-left: 15px;
+}
+
+.content-wrapper {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    margin: 30px 0;
+    background: #1e1e1e;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.text-content {
+    flex: 1;
+}
+
+.text-content p {
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    color: #cccccc;
+}
+
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    margin-top: 40px;
+}
+
+.value-card {
+    background: #1e1e1e;
+    padding: 30px 20px;
+    border-radius: 10px;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    border-top: 4px solid #d4a373;
+}
+
+.value-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+    background: #252525;
+}
+
+.value-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.value-card h4 {
+    color: #ffffff;
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+}
+
+.value-card p {
+    color: #bbbbbb;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.team-card {
+    background: #1e1e1e;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+}
+
+.team-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+    background: #252525;
+}
+
+.team-photo {
+    height: 320px;
+    overflow: hidden;
+    position: relative;
+}
+
+.team-photo:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40%;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.team-card:hover .team-photo:after {
+    opacity: 0.9;
+}
+
+.team-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.team-card:hover .team-photo img {
+    transform: scale(1.1);
+}
+
+.team-info {
+    padding: 25px;
+    text-align: center;
+}
+
+.team-info h4 {
+    margin: 0 0 5px;
+    color: #ffffff;
+    font-size: 1.4rem;
+}
+
+.position {
+    color: #d4a373;
+    font-weight: 600;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+.team-info p {
+    color: #bbbbbb;
+    line-height: 1.5;
+}
+
+/* Адаптивность */
+@media (max-width: 992px) {
+    .content-wrapper {
+        flex-direction: column;
+    }
+
+    .values-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .about-container {
+        padding: 15px;
+    }
+
+    .about-container h2 {
+        font-size: 2rem;
+    }
+
+    .content-wrapper {
+        padding: 20px;
+    }
+
+    .values-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .team-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .team-photo {
+        height: 280px;
+    }
+}
+</style>
 {% endblock %}

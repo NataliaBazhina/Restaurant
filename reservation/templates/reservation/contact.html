@@ -1,17 +1,63 @@
 {% extends "reservation/home.html" %}
 
 {% block content %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Контакты</title>
-</head>
-<body>
-    <h1>Контактная информация</h1>
-    <p>Email: example@example.com</p>
-    <p>Телефон: +1234567890</p>
-    <a class="p-2 btn btn-outline-primary" href="{% url 'reservation:home' %}">Вернуться на главную страницу</a>
-</body>
-</html>
+<div class="container mt-4">
+    <!-- Контактная информация -->
+    <section class="mb-5">
+        <h2 class="text-center mb-4 text-white">Контактная информация</h2>
+        <div class="row justify-content-center">
+            <div class="col-md-5 mb-4">
+                <div class="card bg-dark text-white border-light">
+                    <div class="card-body">
+                        <h5 class="card-title">📞 Контакты</h5>
+                        <p><strong>Телефон:</strong> +7 (999) 99-99-99</p>
+                        <p><strong>Email:</strong> info@restaurant.ru</p>
+                        <p><strong>Telegram:</strong> @restaurant_official</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 mb-4">
+                <div class="card bg-dark text-white border-light">
+                    <div class="card-body">
+                        <h5 class="card-title">🕒 Часы работы</h5>
+                        <p><strong>Ежедневно:</strong> 10:00 - 23:00</p>
+                        <p><strong>Кухня работает:</strong> до 22:30</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Блок с картой -->
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-10">
+                <div class="card bg-dark text-white border-light">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">📍 Как нас найти</h5>
+                        <p>Мы находимся рядом со станцией метро "Елизаровская".</p>
+                        <p>Парковка доступна для гостей ресторана.</p>
+
+                        <!-- Информация о расположении -->
+                        <div class="mt-4 p-3 bg-dark rounded">
+                            <p class="mb-2">🏢 <strong>г. Санкт-Петербург ул. Елизарова, 15</strong></p>
+                            <p class="mb-3">🚇 3 минуты пешком от метро Елизаровская</p>
+
+                            <!-- Кнопка для открытия интерактивной карты -->
+                            <a href="https://yandex.ru/maps/2/saint-petersburg/?ll=30.417800%2C59.896300&mode=search&text=%D1%83%D0%BB.%20%D0%95%D0%BB%D0%B8%D0%B7%D0%B0%D1%80%D0%BE%D0%B2%D0%B0%2C%2015%2C%20%D0%A1%D0%B0%D0%BD%D0%BA%D1%82-%D0%9F%D0%B5%D1%82%D0%B5%D1%80%D0%B1%D1%83%D1%80%D0%B3"
+                               class="btn btn-primary btn-lg"
+                               target="_blank"
+                               rel="noopener noreferrer">
+                                📍 Открыть карту
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Кнопка возврата -->
+    <div class="text-center mt-4">
+        <a class="btn btn-outline-light" href="{% url 'reservation:home' %}">Вернуться на главную страницу</a>
+    </div>
+</div>
 {% endblock %}

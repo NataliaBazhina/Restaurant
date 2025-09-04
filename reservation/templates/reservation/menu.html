@@ -1,0 +1,353 @@
+{% extends "reservation/home.html" %}
+{% load static %}
+
+{% block content %}
+<div class="menu-container dark-theme">
+    <h2>Наше меню</h2>
+
+    <section class="menu-intro">
+        <p>Мы создали меню, которое объединяет лучшие традиции европейской кухни с современными тенденциями. Все блюда готовятся из свежих, сезонных продуктов от местных фермеров. Для наших маленьких гостей мы разработали специальное детское меню с яркой подачей и сбалансированным составом.</p>
+    </section>
+
+    <!-- Закуски -->
+    <section class="menu-section">
+        <h3>Закуски</h3>
+        <div class="menu-items">
+            <div class="menu-item">
+                <div class="item-info">
+                    <h4>Брускетта с томатами и базиликом</h4>
+                    <p>Хрустящий хлеб с сочными томатами, свежим базиликом и оливковым маслом</p>
+                </div>
+                <div class="item-price">450 ₽</div>
+            </div>
+
+            <div class="menu-item">
+                <div class="item-info">
+                    <h4>Тартар из говядины</h4>
+                    <p>Нежная рубленая говядина с каперсами, красным луком и соусом табаско</p>
+                </div>
+                <div class="item-price">690 ₽</div>
+            </div>
+
+            <div class="menu-item">
+                <div class="item-info">
+                    <h4>Сырная тарелка</h4>
+                    <p>Подборка европейских сыров с орехами, медом и фруктами</p>
+                </div>
+                <div class="item-price">850 ₽</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Салаты -->
+    <section class="menu-section">
+        <h3>Салаты</h3>
+        <div class="menu-items">
+            <div class="menu-item">
+                <div class="item-info">
+                    <h4>Цезарь с курицей</h4>
+                    <p>Классический салат с хрустящими крутонами, пармезаном и соусом цезарь</p>
+                </div>
+                <div class="item-price">550 ₽</div>
+            </div>
+
+            <div class="menu-item">
+                <div class="item-info">
+                    <h4>Греческий салат</h4>
+                    <p>Свежие овощи, оливки, сыр фета и орегано с оливковым маслом</p>
+                </div>
+                <div class="item-price">490 ₽</div>
+            </div>
+
+            <div class="menu-item">
+                <div class="item-info">
+                    <h4>Салат с креветками и авокадо</h4>
+                    <p>Тигровые креветки, авокадо, руккола и цитрусовый соус</p>
+                </div>
+                <div class="item-price">750 ₽</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Основные блюда -->
+    <section class="menu-section">
+        <h3>Основные блюда</h3>
+        <div class="menu-items">
+            <div class="menu-item">
+                <div class="item-info">
+                    <h4>Стейк из лосося</h4>
+                    <p>Нежный стейк лосося с овощами гриль и соусом из укропа</p>
+                </div>
+                <div class="item-price">1200 ₽</div>
+            </div>
+
+            <div class="menu-item">
+                <div class="item-info">
+                    <h4>Рибай стейк</h4>
+                    <p>Премиальная говядина с картофельным пюре и красным винных соусом</p>
+                </div>
+                <div class="item-price">1800 ₽</div>
+            </div>
+
+            <div class="menu-item">
+                <div class="item-info">
+                    <h4>Паста карбонара</h4>
+                    <p>Спагетти с беконом, сыром пармезан и сливочным соусом</p>
+                </div>
+                <div class="item-price">650 ₽</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Детское меню -->
+    <section class="menu-section kids-section">
+        <h3>🍭 Детское меню</h3>
+        <div class="menu-items">
+            <div class="menu-item">
+                <div class="item-info">
+                    <h4>Куриные наггетсы</h4>
+                    <p>Хрустящие куриные кусочки с картофелем фри и овощами</p>
+                </div>
+                <div class="item-price">390 ₽</div>
+            </div>
+
+            <div class="menu-item">
+                <div class="item-info">
+                    <h4>Мини-бургер</h4>
+                    <p>Аппетитный бургер с котлетой из говядины и картофелем фри</p>
+                </div>
+                <div class="item-price">420 ₽</div>
+            </div>
+
+            <div class="menu-item">
+                <div class="item-info">
+                    <h4>Паста с сырным соусом</h4>
+                    <p>Нежная паста с сливочным сырным соусом в виде смешной рожицы</p>
+                </div>
+                <div class="item-price">350 ₽</div>
+            </div>
+
+            <div class="menu-item">
+                <div class="item-info">
+                    <h4>Омлет с сосисками</h4>
+                    <p>Пушистый омлет с детскими сосисками и овощами</p>
+                </div>
+                <div class="item-price">320 ₽</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Десерты -->
+    <section class="menu-section">
+        <h3>Десерты</h3>
+        <div class="menu-items">
+            <div class="menu-item">
+                <div class="item-info">
+                    <h4>Тирамису</h4>
+                    <p>Классический итальянский десерт с кофе и маскарпоне</p>
+                </div>
+                <div class="item-price">450 ₽</div>
+            </div>
+
+            <div class="menu-item">
+                <div class="item-info">
+                    <h4>Шоколадный фондан</h4>
+                    <p>Теплый шоколадный кекс с жидкой сердцевиной и мороженым</p>
+                </div>
+                <div class="item-price">480 ₽</div>
+            </div>
+
+            <div class="menu-item">
+                <div class="item-info">
+                    <h4>Детский десерт "Радуга"</h4>
+                    <p>Разноцветное мороженое с мармеладом и шоколадной крошкой</p>
+                </div>
+                <div class="item-price">290 ₽</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Напитки -->
+    <section class="menu-section">
+        <h3>Напитки</h3>
+        <div class="menu-items">
+            <div class="menu-item">
+                <div class="item-info">
+                    <h4>Свежевыжатые соки</h4>
+                    <p>Апельсиновый, яблочный, морковный (0,3л)</p>
+                </div>
+                <div class="item-price">280 ₽</div>
+            </div>
+
+            <div class="menu-item">
+                <div class="item-info">
+                    <h4>Молочные коктейли</h4>
+                    <p>Ванильный, шоколадный, клубничный с взбитыми сливками</p>
+                </div>
+                <div class="item-price">350 ₽</div>
+            </div>
+
+            <div class="menu-item">
+                <div class="item-info">
+                    <h4>Детский лимонад</h4>
+                    <p>Домашний лимонад с ягодами и мятой</p>
+                </div>
+                <div class="item-price">250 ₽</div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<style>
+.menu-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    font-family: 'Georgia', serif;
+    line-height: 1.6;
+}
+
+.menu-container h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #ffffff;
+    font-size: 2.5rem;
+    font-weight: 700;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.menu-container h2:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: #d4a373;
+}
+
+.menu-intro {
+    text-align: center;
+    margin-bottom: 50px;
+    color: #cccccc;
+    font-size: 1.1rem;
+    background: #1e1e1e;
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.menu-section {
+    margin: 60px 0;
+}
+
+.menu-section h3 {
+    color: #ffffff;
+    margin-bottom: 30px;
+    font-size: 1.8rem;
+    font-weight: 600;
+    border-left: 4px solid #d4a373;
+    padding-left: 15px;
+}
+
+.kids-section h3 {
+    border-left-color: #ff6b6b;
+    color: #ff6b6b;
+}
+
+.menu-items {
+    display: grid;
+    gap: 20px;
+}
+
+.menu-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background: #1e1e1e;
+    padding: 25px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    border-left: 4px solid #d4a373;
+}
+
+.menu-item:hover {
+    background: #252525;
+    transform: translateX(10px);
+}
+
+.kids-section .menu-item {
+    border-left-color: #ff6b6b;
+}
+
+.item-info {
+    flex: 1;
+    padding-right: 20px;
+}
+
+.item-info h4 {
+    color: #ffffff;
+    margin: 0 0 10px;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.item-info p {
+    color: #bbbbbb;
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.item-price {
+    color: #d4a373;
+    font-size: 1.2rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.kids-section .item-price {
+    color: #ff6b6b;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .menu-container {
+        padding: 20px 15px;
+    }
+
+    .menu-container h2 {
+        font-size: 2rem;
+    }
+
+    .menu-item {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .item-info {
+        padding-right: 0;
+    }
+
+    .item-price {
+        align-self: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .menu-section h3 {
+        font-size: 1.5rem;
+    }
+
+    .item-info h4 {
+        font-size: 1.1rem;
+    }
+
+    .item-price {
+        font-size: 1.1rem;
+    }
+}
+</style>
+{% endblock %}

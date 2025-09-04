@@ -51,6 +51,7 @@
 1. Клонируйте репозиторий:
 
 git@github.com:NataliaBazhina/Restaurant.git
+
 cd restaurant
 
 2. Создайте файл .env на основе .env.example:

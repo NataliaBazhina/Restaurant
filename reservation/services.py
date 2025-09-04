@@ -1,6 +1,7 @@
 from django.core.mail import send_mail
 from django.conf import settings
 
+
 def send_confirmation_email(reservation):
     """Отправка email с ссылкой подтверждения"""
     subject = 'Подтвердите вашу бронь на сегодня'

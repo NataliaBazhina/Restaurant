@@ -1,42 +1,8 @@
-from datetime import timezone
 from django.core.exceptions import ValidationError
 from django.utils import timezone
-from datetime import time, timedelta
-from datetime import timedelta
+from datetime import time
 
 
-
-
-
-#
-#
-# class TableValidator:
-#     @staticmethod
-#     def validate_table_position(table):
-#         """Проверка позиции столика в пределах зала"""
-#         if table.x_position >= table.hall.width:
-#             raise ValidationError(
-#                 f"Позиция X ({table.x_position}) превышает ширину зала ({table.hall.width})"
-#             )
-#         if table.y_position >= table.hall.height:
-#             raise ValidationError(
-#                 f"Позиция Y ({table.y_position}) превышает длину зала ({table.hall.height})"
-#             )
-#
-#     @staticmethod
-#     def validate_table_number_uniqueness(table):
-#         """Проверка уникальности номера столика в зале"""
-#         from .models import Table
-#         if (
-#                 Table.objects.filter(hall=table.hall, number=table.number)
-#                         .exclude(pk=table.pk)
-#                         .exists()
-#         ):
-#             raise ValidationError(
-#                 f"Столик с номером {table.number} уже существует в этом зале"
-#             )
-#
-#
 class ReservationValidator:
     @staticmethod
     def validate_guests_count(reservation):

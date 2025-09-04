@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
 from django.views.generic import ListView, UpdateView, DeleteView, TemplateView, DetailView, CreateView, FormView
 from django.urls import reverse_lazy
@@ -11,13 +11,9 @@ from .models import Reservation, Table, Hall
 from .forms import ReservationForm, FeedbackForm
 from django.utils import timezone
 from datetime import datetime, timedelta, date
-import logging
 from django.core.mail import send_mail
 from django.conf import settings
-
 from .validators import ReservationValidator
-
-logger = logging.getLogger(__name__)
 
 
 class TablesByHallView(View):
@@ -53,15 +49,13 @@ class TablesByHallView(View):
                     })
                 except ValidationError:
                     pass
-
-
             return JsonResponse({'tables': available_tables})
 
         except ValueError as e:
             return JsonResponse({'error': f'Неверный формат данных: {e}'}, status=400)
-        except Exception as e:
-            logger.exception("Error in TablesByHallView:")
+        except Exception:
             return JsonResponse({'error': 'Внутренняя ошибка сервера'}, status=500)
+
 
 class HallListView(ListView):
     model = Hall
@@ -100,7 +94,7 @@ class ReservationCreateView(LoginRequiredMixin, CreateView):
             messages.success(self.request, message)
             return redirect(self.success_url)
 
-        except IntegrityError as e:
+        except IntegrityError:
             form.add_error(None,
                            'Произошла ошибка при сохранении. Возможно, столик на это время уже был забронирован кем-то другим. Пожалуйста, попробуйте еще раз.')
             return self.form_invalid(form)
@@ -200,28 +194,13 @@ class ProfileView(LoginRequiredMixin, TemplateView):
 
         return context
 
-def home(request):
-    return render(request, 'reservation/home.html')
 
-def reservation_welcome(request):
-    return render(request, 'reservation/reservation_welcome.html')
+class HomeView(TemplateView):
+    template_name = 'reservation/home.html'
 
 
-def hall_schema(request, hall_id):
-    hall = get_object_or_404(Hall, id=hall_id)
-    tables = Table.objects.filter(hall=hall, is_active=True)
-
-    grid = [[None for _ in range(hall.width)] for _ in range(hall.height)]
-
-    for table in tables:
-        if table.x_position < hall.width and table.y_position < hall.height:
-            grid[table.y_position][table.x_position] = table
-
-    return render(request, 'reservation/hall_schema.html', {
-        'hall': hall,
-        'grid': grid,
-        'tables': tables
-    })
+class ReservationWelcomeView(TemplateView):
+    template_name = 'reservation/reservation_welcome.html'
 
 
 class ConfirmReservationView(View):
@@ -269,3 +248,23 @@ class FeedbackView(FormView):
 
 class FeedbackThanksView(TemplateView):
     template_name = "reservation/feedback_thanks.html"
+
+
+class MenuView(TemplateView):
+    template_name = "reservation/menu.html"
+
+def hall_schema(request, hall_id):
+    hall = get_object_or_404(Hall, id=hall_id)
+    tables = Table.objects.filter(hall=hall, is_active=True)
+
+    grid = [[None for _ in range(hall.width)] for _ in range(hall.height)]
+
+    for table in tables:
+        if table.x_position < hall.width and table.y_position < hall.height:
+            grid[table.y_position][table.x_position] = table
+
+    return render(request, 'reservation/hall_schema.html', {
+        'hall': hall,
+        'grid': grid,
+        'tables': tables
+    })

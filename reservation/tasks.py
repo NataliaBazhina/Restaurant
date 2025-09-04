@@ -1,5 +1,4 @@
 from celery import shared_task
-from django.utils import timezone
 from datetime import date
 from .models import Reservation
 from .services import send_confirmation_email

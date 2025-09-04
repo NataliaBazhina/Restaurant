@@ -22,10 +22,10 @@ class UserRegisterForm(StyleFormMixin, UserCreationForm):
         model = User
         fields = ('email', 'first_name', 'last_name', 'phone', 'password1', 'password2')
 
+
 class UserChangePasswordForm(forms.Form):
     need_generate = forms.BooleanField()
-    email =forms.EmailField(required=True)
-
+    email = forms.EmailField(required=True)
 
 
 class UserUpdateForm(forms.ModelForm):

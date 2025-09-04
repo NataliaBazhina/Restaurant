@@ -1,5 +1,4 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.http import Http404
 from django.urls import reverse
 from django.core.mail import send_mail
 from django.shortcuts import render, get_object_or_404, redirect
@@ -11,7 +10,7 @@ from users.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from config.settings import EMAIL_HOST_USER
 import secrets
-from django.db.models import Count, Q
+from django.db.models import Q
 
 
 class UserCreateView(CreateView):
@@ -20,20 +19,21 @@ class UserCreateView(CreateView):
     success_url = reverse_lazy("users:login")
 
     def form_valid(self, form):
-         user = form.save()
-         user.is_active = False
-         token = secrets.token_hex(16)
-         user.token = token
-         user.save()
-         host = self.request.get_host()
-         url = f'http://{host}/users/email-confirm/{token}/'
-         send_mail(
-             subject='Подтверждение почты',
-             message=f'Здравствуйте! Для завершения регистрации пожалуйста перейдите по ссылке {url}.',
-             from_email=EMAIL_HOST_USER,
-             recipient_list=[user.email]
-         )
-         return super().form_valid(form)
+        user = form.save()
+        user.is_active = False
+        token = secrets.token_hex(16)
+        user.token = token
+        user.save()
+        host = self.request.get_host()
+        url = f'http://{host}/users/email-confirm/{token}/'
+        send_mail(
+            subject='Подтверждение почты',
+            message=f'Здравствуйте! Для завершения регистрации пожалуйста перейдите по ссылке {url}.',
+            from_email=EMAIL_HOST_USER,
+            recipient_list=[user.email]
+        )
+        return super().form_valid(form)
+
 
 class UserDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = User
@@ -69,15 +69,12 @@ class UserListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         search_query = self.request.GET.get('search')
         if search_query:
             queryset = queryset.filter(
-                Q(email__icontains=search_query) |
-                Q(first_name__icontains=search_query) |
-                Q(last_name__icontains=search_query) |
-                Q(phone__icontains=search_query)
+                Q(email__icontains=search_query)
+                | Q(first_name__icontains=search_query)
+                | Q(last_name__icontains=search_query)
+                | Q(phone__icontains=search_query)
             )
-
-        # Сортировка по дате регистрации
         queryset = queryset.order_by('-date_joined')
-
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -100,6 +97,7 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
         messages.success(self.request, 'Профиль успешно обновлен!')
         return super().form_valid(form)
 
+
 class UserDeleteView(DeleteView):
     model = User
     template_name = 'users/user_confirm_delete.html'
@@ -108,11 +106,13 @@ class UserDeleteView(DeleteView):
     def get_object(self, queryset=None):
         return self.request.user
 
+
 def email_verification(request, token):
     user = get_object_or_404(User, token=token)
     user.is_active = True
     user.save()
     return redirect(reverse('users:login'))
+
 
 def change_password(
     request,
@@ -145,4 +145,3 @@ def change_password(
         return render(
             request, "users/change_password.html", {"form": UserChangePasswordForm()}
         )
-

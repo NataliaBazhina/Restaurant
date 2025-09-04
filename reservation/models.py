@@ -85,7 +85,6 @@ class Table(models.Model):
         return list(tables)
 
 
-
 class Reservation(models.Model):
     STATUS_CHOICES = (
         ("pending", "Ожидает подтверждения"),
@@ -174,4 +173,3 @@ class Reservation(models.Model):
         ReservationValidator.validate_working_hours(self.start_time)
         ReservationValidator.validate_guests_count(self)
         ReservationValidator.validate_availability(self)
-

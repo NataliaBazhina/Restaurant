@@ -1,5 +1,8 @@
 import os.path
+from datetime import timedelta
 from pathlib import Path
+
+from celery.schedules import crontab
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -12,7 +15,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
 
 
 INSTALLED_APPS = [
@@ -24,6 +27,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "reservation",
     "users",
+    "django_celery_beat",
 ]
 
 MIDDLEWARE = [
@@ -97,18 +101,24 @@ STATIC_URL = "static/"
 
 STATICFILES_DIRS = (BASE_DIR / "static",)
 
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
 MEDIA_URL = "/media/"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
-
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+    'http://0.0.0.0:8000',
+]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = 'users.User'
 
+LOGIN_URL = '/users/login/'
 LOGIN_REDIRECT_URL = '/'
-
 LOGOUT_REDIRECT_URL = '/'
 
 EMAIL_HOST = os.getenv('EMAIL_HOST')
@@ -118,6 +128,20 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS',False) == 'True'
 EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL',False) == 'True'
 ADMIN_EMAIL = os.getenv('ADMIN_EMAIL', '')
+SITE_URL = os.getenv('SITE_URL', 'http://localhost:8000')
 
 SERVER_EMAIL = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
+CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND")
+
+CELERY_BEAT_SCHEDULE = {
+    "send_reservation_reminders": {
+        "task": "reservation.tasks.send_reservation_reminders",
+        "schedule": crontab(hour=8, minute=0),  # Каждый день в 8:00 утра
+    },
+}

@@ -7,7 +7,7 @@ class Command(BaseCommand):
 
     @staticmethod
     def json_read_halls():
-        with open('reservation/fixture/restaurant_data.json', 'r', encoding='utf-8') as file:
+        with open('reservation/fixtures/restaurant_data.json', 'r', encoding='utf-8') as file:
             data = json.load(file)
             halls = []
             for item in data:
@@ -15,14 +15,13 @@ class Command(BaseCommand):
                     halls.append(item)
             return halls
 
-
     @staticmethod
     def json_read_tables():
-        with open('reservation/fixture/restaurant_data.json', 'r', encoding='utf-8') as file:
+        with open('reservation/fixtures/restaurant_data.json', 'r', encoding='utf-8') as file:
             data = json.load(file)
             tables = []
             for item in data:
-                if item['model'] == 'reservation.tables':
+                if item['model'] == 'reservation.table':
                     tables.append(item)
             return tables
 
@@ -41,8 +40,6 @@ class Command(BaseCommand):
             table_data = table["fields"]
             hall = Hall.objects.get(pk=table_data.pop("hall"))
             tables_for_create.append(
-                Table(id=table["pk"], category=hall, **table_data)
+                Table(id=table["pk"], hall=hall, **table_data)
             )
         Table.objects.bulk_create(tables_for_create)
-
-

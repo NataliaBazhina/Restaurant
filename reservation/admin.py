@@ -1,7 +1,5 @@
 from django.contrib import admin
 from django.contrib import messages
-from django.utils import timezone
-from datetime import datetime
 from .models import Hall, Table, Reservation
 
 

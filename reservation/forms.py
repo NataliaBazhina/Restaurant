@@ -83,6 +83,7 @@ class ReservationForm(StyleFormMixin, forms.ModelForm):
 
         return cleaned_data
 
+
 class FeedbackForm(forms.Form):
     name = forms.CharField(max_length=100, label="Ваше имя")
     email = forms.EmailField(label="Email")

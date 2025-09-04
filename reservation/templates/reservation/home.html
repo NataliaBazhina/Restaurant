@@ -6,15 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ресторан - Бронирование столиков</title>
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/custom.css' %}" rel="stylesheet">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="/">Ресторан</a>
+            <a class="navbar-brand" href="/">FAMILY</a>
             <div class="navbar-nav ms-auto">
                 <a class="nav-link" href="/">Главная</a>
                 <a class="nav-link" href="/about/">О нас</a>
                 <a class="nav-link" href="{% url 'reservation:hall_list' %}">Залы</a>
+                <a class="nav-link" href="/menu/">Меню</a>
                 <a class="nav-link" href="/reservation_welcome/">Бронирование</a>
                 <a class="nav-link" href="/contacts/">Контакты</a>
                 {% if user.is_authenticated %}
@@ -34,6 +36,82 @@
     </nav>
 
     <main class="container mt-4">
+        {% if request.path == '/' %}
+        <!-- Главная страница в стиле about -->
+        <div class="home-container dark-theme">
+            <h2>Добро пожаловать в семейный ресторан Family!</h2>
+
+            <section class="welcome-section">
+                <div class="content-wrapper">
+                    <div class="text-content">
+                        <p>Мы создаем неповторимую атмосферу, где каждый гость может насладиться изысканной кухней, приготовленной из свежайших продуктов. Наш шеф-повар и команда профессионалов работают для того, чтобы ваше посещение стало незабываемым событием.</p>
+                        <p>У нас вы найдете уютную обстановку, внимательное обслуживание и меню, которое удовлетворит даже самого взыскательного гурмана.</p>
+                    </div>
+                    <div class="image-content">
+                        <img src="/media/halls/main_hall.jpg" alt="Наш ресторан" class="img-fluid rounded shadow">
+                    </div>
+                </div>
+            </section>
+
+            <section class="services-section">
+                <h3>Наши услуги</h3>
+
+                <div class="services-grid">
+                    <div class="service-card">
+                        <h4>Детская комната с воспитателем</h4>
+                        <p>Ваш ребенок веселится в игровой, пока вы отдыхаете. Профессиональные воспитатели обеспечат безопасность и интересный досуг для детей.</p>
+                    </div>
+
+                    <div class="service-card">
+                        <h4>Организация мероприятий</h4>
+                        <p>Корпоративы, дни рождения, свадьбы и другие торжества. Полный цикл организации от планирования до проведения.</p>
+                    </div>
+
+                    <div class="service-card">
+                        <h4>Кулинарные мастер-классы</h4>
+                        <p>Взрослые и детские мастер-классы от наших поваров. Узнайте секреты приготовления изысканных блюд.</p>
+                    </div>
+
+                    <div class="service-card">
+                        <h4>Банкеты и фуршеты</h4>
+                        <p>Организация мероприятий любого масштаба. Индивидуальный подход к каждому событию.</p>
+                    </div>
+
+                    <div class="service-card">
+                        <h4>Детские праздники</h4>
+                        <p>Незабываемые дни рождения для детей с аниматорами, тематическими программами и специальным меню.</p>
+                    </div>
+
+                    <div class="service-card">
+                        <h4>Высокий уровень сервиса</h4>
+                        <p>Профессиональное обслуживание, внимательный персонал и забота о каждом госте.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="features-section">
+                <h3>Почему выбирают нас</h3>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h4>🍽️ Свежие продукты</h4>
+                        <p>Ежедневно работаем с локальными фермерами и поставщиками</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4>👨‍🍳 Профессиональные повара</h4>
+                        <p>Опытная команда шеф-поваров с международным опытом</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4>🎉 Уникальная атмосфера</h4>
+                        <p>Уютный интерьер и теплая семейная атмосфера</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+        {% endif %}
+
         {% block content %}
         {% endblock %}
     </main>
@@ -45,61 +123,18 @@
     </footer>
 
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
 
     {% block extra_js %}
-    <!-- Дополнительные JavaScript скрипты для конкретных страниц -->
     {% endblock %}
-{% block floating_buttons %}
-<!-- Золотая кнопка с текстом -->
-<div class="feedback-fab">
-    <a href="{% url 'reservation:feedback' %}" class="btn btn-black btn-lg">
-        <span class="fab-text">Обратная связь</span>
-        <span class="fab-icon">💬</span>
-    </a>
-</div>
 
-<style>
-    .feedback-fab {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        z-index: 1000;
-    }
-    .feedback-fab .btn-gold {
-        padding: 12px 25px;
-        font-weight: 600;
-        background: linear-gradient(145deg, #ffd700, #daa520);
-        border: none;
-        color: #000;
-        border-radius: 50px;
-        box-shadow: 0 6px 15px rgba(218, 165, 32, 0.4);
-        transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-    .feedback-fab .btn-gold:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 20px rgba(218, 165, 32, 0.6);
-        background: linear-gradient(145deg, #daa520, #ffd700);
-    }
-    .fab-text {
-        display: inline;
-    }
-    .fab-icon {
-        display: none;
-    }
-
-    @media (max-width: 768px) {
-        .fab-text {
-            display: none;
-        }
-        .fab-icon {
-            display: inline;
-            font-size: 20px;
-        }
-    }
-</style>
-{% endblock %}
+    {% block floating_buttons %}
+    <div class="feedback-fab">
+        <a href="{% url 'reservation:feedback' %}" class="btn btn-gold">
+            <span class="fab-text">Обратная связь</span>
+            <span class="fab-icon">💬</span>
+        </a>
+    </div>
+    {% endblock %}
 </body>
 </html>

@@ -1,250 +1,183 @@
 {% extends "reservation/home.html" %}
+{% load static %}
 
 {% block title %}{% if form.instance.pk %}Редактирование бронирования{% else %}Бронирование столика{% endif %}{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-8 mx-auto">
-        <h2 class="mb-4">{% if form.instance.pk %}Редактирование бронирования{% else %}Бронирование столика{% endif %}</h2>
+<div class="about-container dark-theme">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <h2 class="page-title">{% if form.instance.pk %}Редактирование бронирования{% else %}Бронирование столика{% endif %}</h2>
 
-        {% if messages %}
-            {% for message in messages %}
-                {% if message.tags != 'success' %}
-                <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-                {% endif %}
-            {% endfor %}
-        {% endif %}
-
-        <form method="post" id="reservation-form">
-            {% csrf_token %}
-
-            <!-- Данные бронирования -->
-            <div class="card mb-4">
-                <div class="card-header">Данные бронирования</div>
-                <div class="card-body">
-                    <!-- Зал -->
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label">Выберите зал *</label>
-                                {{ form.hall }}
-                                {% if form.hall.errors %}
-                                <div class="text-danger">{{ form.hall.errors }}</div>
-                                {% endif %}
-                                <small class="form-text text-muted">
-                                    <a href="#" id="view-hall-schema" style="display: none;" target="_blank">
-                                        Посмотреть схему зала
-                                    </a>
-                                </small>
-                            </div>
-                        </div>
+            {% if messages %}
+                {% for message in messages %}
+                    {% if message.tags != 'success' %}
+                    <div class="alert-message {{ message.tags }}">
+                        {{ message }}
+                        <button type="button" class="close-btn">&times;</button>
                     </div>
-
-                    <!-- Дата и время -->
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label class="form-label">Дата *</label>
-                                <input type="date" name="date" value="{{ form.date.value|date:'Y-m-d' }}"
-                                       class="form-control" required
-                                       pattern="\d{2}.\d{2}.\d{4}"
-                                       placeholder="дд.мм.гггг">
-                                {% if form.date.errors %}
-                                <div class="text-danger">{{ form.date.errors }}</div>
-                                {% endif %}
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label class="form-label">Время *</label>
-                                <input type="time" name="start_time" value="{{ form.start_time.value|time:'H:i' }}"
-                                       class="form-control" required
-                                       step="900"
-                                       pattern="[0-9]{2}:[0-9]{2}"
-                                       placeholder="чч:мм (24-часовой формат)">
-                                {% if form.start_time.errors %}
-                                <div class="text-danger">{{ form.start_time.errors }}</div>
-                                {% endif %}
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label class="form-label">Количество гостей *</label>
-                                {{ form.guests_count }}
-                                {% if form.guests_count.errors %}
-                                <div class="text-danger">{{ form.guests_count.errors }}</div>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Столик -->
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label">Выберите столик *</label>
-                                {{ form.table }}
-                                <div id="table-loading" class="text-muted" style="display: none;">
-                                    Загрузка доступных столиков...
-                                </div>
-                                {% if form.table.errors %}
-                                <div class="text-danger">{{ form.table.errors }}</div>
-                                {% endif %}
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label">Длительность *</label>
-                                {{ form.duration }}
-                                {% if form.duration.errors %}
-                                <div class="text-danger">{{ form.duration.errors }}</div>
-                                {% endif %}
-                                <small class="form-text text-muted">
-                                    {% if form.instance.date and form.instance.start_time %}
-                                        Время окончания: {{ form.instance.end_time|time:"H:i" }}
-                                    {% else %}
-                                    {% endif %}
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Событие -->
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label class="form-label">Особое событие (необязательно)</label>
-                                {{ form.event }}
-                                {% if form.event.errors %}
-                                <div class="text-danger">{{ form.event.errors }}</div>
-                                {% endif %}
-                                <small class="form-text text-muted">Например, день рождения, юбилей и т.д.</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Информация о пользователе -->
-            <div class="card mb-4">
-                <div class="card-header">Ваши данные</div>
-                <div class="card-body">
-                    <p><strong>Имя:</strong> {{ user.first_name|default:"Не указано" }}</p>
-                    <p><strong>Фамилия:</strong> {{ user.last_name|default:"Не указана" }}</p>
-                    <p><strong>Email:</strong> {{ user.email }}</p>
-                    {% if user.phone %}
-                    <p><strong>Телефон:</strong> {{ user.phone }}</p>
                     {% endif %}
-                </div>
-            </div>
+                {% endfor %}
+            {% endif %}
 
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <a href="{% url 'reservation:home' %}" class="btn btn-secondary me-md-2">Отмена</a>
-                <button type="submit" class="btn btn-primary">
-                    {% if form.instance.pk %}💾 Сохранить изменения{% else %}Забронировать{% endif %}
-                </button>
-            </div>
-        </form>
+            <form method="post" id="reservation-form" class="reservation-form">
+                {% csrf_token %}
+
+                <!-- Данные бронирования -->
+                <div class="form-card">
+                    <div class="card-header">Данные бронирования</div>
+                    <div class="card-body">
+                        <!-- Зал -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Выберите зал *</label>
+                                    {{ form.hall }}
+                                    {% if form.hall.errors %}
+                                    <div class="error-text">{{ form.hall.errors }}</div>
+                                    {% endif %}
+                                    <small class="form-text">
+                                        <a href="#" id="view-hall-schema" style="display: none;" target="_blank">
+                                            Посмотреть схему зала
+                                        </a>
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Дата и время -->
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="form-label">Дата *</label>
+                                    <input type="date" name="date" value="{{ form.date.value|date:'Y-m-d' }}"
+                                           class="form-control" required
+                                           pattern="\d{2}.\d{2}.\d{4}"
+                                           placeholder="дд.мм.гггг">
+                                    {% if form.date.errors %}
+                                    <div class="error-text">{{ form.date.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="form-label">Время *</label>
+                                    <input type="time" name="start_time" value="{{ form.start_time.value|time:'H:i' }}"
+                                           class="form-control" required
+                                           step="900"
+                                           pattern="[0-9]{2}:[0-9]{2}"
+                                           placeholder="чч:мм (24-часовой формат)">
+                                    {% if form.start_time.errors %}
+                                    <div class="error-text">{{ form.start_time.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="form-label">Количество гостей *</label>
+                                    {{ form.guests_count }}
+                                    {% if form.guests_count.errors %}
+                                    <div class="error-text">{{ form.guests_count.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Столик -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Выберите столик *</label>
+                                    {{ form.table }}
+                                    <div id="table-loading" class="loading-text">
+                                        Загрузка доступных столиков...
+                                    </div>
+                                    {% if form.table.errors %}
+                                    <div class="error-text">{{ form.table.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Длительность *</label>
+                                    {{ form.duration }}
+                                    {% if form.duration.errors %}
+                                    <div class="error-text">{{ form.duration.errors }}</div>
+                                    {% endif %}
+                                    <small class="form-text">
+                                        {% if form.instance.date and form.instance.start_time %}
+                                            Время окончания: {{ form.instance.end_time|time:"H:i" }}
+                                        {% else %}
+                                        {% endif %}
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Событие -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="form-label">Особое событие (необязательно)</label>
+                                    {{ form.event }}
+                                    {% if form.event.errors %}
+                                    <div class="error-text">{{ form.event.errors }}</div>
+                                    {% endif %}
+                                    <small class="form-text">Например, день рождения, юбилей и т.д.</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Информация о пользователе -->
+                <div class="form-card">
+                    <div class="card-header">Ваши данные</div>
+                    <div class="card-body">
+                        <p><strong>Имя:</strong> {{ user.first_name|default:"Не указано" }}</p>
+                        <p><strong>Фамилия:</strong> {{ user.last_name|default:"Не указана" }}</p>
+                        <p><strong>Email:</strong> {{ user.email }}</p>
+                        {% if user.phone %}
+                        <p><strong>Телефон:</strong> {{ user.phone }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <a href="{% url 'reservation:home' %}" class="btn-secondary">Отмена</a>
+                    <button type="submit" class="btn-primary">
+                        {% if form.instance.pk %}💾 Сохранить изменения{% else %}Забронировать{% endif %}
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
+
 {% endblock %}
 
 {% block extra_js %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const hallSelect = document.getElementById('id_hall');
-    const dateInput = document.querySelector('input[name="date"]');
-    const timeInput = document.querySelector('input[name="start_time"]');
-    const guestsInput = document.getElementById('id_guests_count');
-    const tableSelect = document.getElementById('id_table');
-    const schemaLink = document.getElementById('view-hall-schema');
-
-    // Функция для обновления ссылки на схему зала
-    function updateHallSchemaLink() {
-        const hallId = hallSelect.value;
-        if (hallId && schemaLink) {
-            schemaLink.style.display = 'inline';
-            schemaLink.href = `/hall/${hallId}/schema/`;
-        } else if (schemaLink) {
-            schemaLink.style.display = 'none';
-        }
-    }
-
-    function updateAvailableTables() {
-        const hallId = hallSelect.value;
-        const date = dateInput.value;
-        const time = timeInput.value;
-        const guests = guestsInput.value || 1;
-
-        if (!hallId || !date || !time) {
-            tableSelect.innerHTML = '<option value="">-- Сначала выберите зал, дату и время --</option>';
-            return;
-        }
-
-        // Показываем загрузку
-        const loadingDiv = document.getElementById('table-loading');
-        if (loadingDiv) loadingDiv.style.display = 'block';
-        tableSelect.disabled = true;
-
-        fetch(`/api/tables-by-hall/${hallId}/?date=${date}&time=${time}&guests=${guests}`)
-            .then(response => response.json())
-            .then(data => {
-                tableSelect.innerHTML = '<option value="">-- Выберите столик --</option>';
-
-                if (data.tables && data.tables.length > 0) {
-                    data.tables.forEach(table => {
-                        const option = document.createElement('option');
-                        option.value = table.id;
-                        option.textContent = `Стол ${table.number} (${table.capacity} чел.)`;
-                        tableSelect.appendChild(option);
-                    });
-                } else {
-                    tableSelect.innerHTML = '<option value="">Нет доступных столиков</option>';
-                }
-            })
-            .catch(error => {
-                console.error('Ошибка:', error);
-                tableSelect.innerHTML = '<option value="">Ошибка загрузки столиков</option>';
-            })
-            .finally(() => {
-                if (loadingDiv) loadingDiv.style.display = 'none';
-                tableSelect.disabled = false;
-            });
-    }
-
-    // Слушаем изменения зала - показываем ссылку сразу
-    hallSelect.addEventListener('change', function() {
-        updateHallSchemaLink();  // Ссылка появляется сразу при выборе зала
-        updateAvailableTables();
-    });
-
-    // Слушаем остальные поля
-    dateInput.addEventListener('change', updateAvailableTables);
-    timeInput.addEventListener('change', updateAvailableTables);
-    guestsInput.addEventListener('change', updateAvailableTables);
-
-    // Инициализируем при загрузке страницы
-    updateHallSchemaLink();
-
-    // Для случая редактирования
     {% if form.instance.pk and form.instance.table %}
+        const hallSelect = document.getElementById('id_hall');
+        const tableSelect = document.getElementById('id_table');
         const initialHallId = {{ form.instance.table.hall.id }};
         const initialTableId = {{ form.instance.table.id }};
 
         setTimeout(() => {
-            hallSelect.value = initialHallId;
-            updateHallSchemaLink();  // Показываем ссылку для редактирования
-            updateAvailableTables();
+            if (hallSelect && tableSelect) {
+                hallSelect.value = initialHallId;
 
-            // После загрузки столиков выбираем нужный
-            setTimeout(() => {
-                if (initialTableId) {
-                    tableSelect.value = initialTableId;
-                }
-            }, 500);
+                const schemaLink = document.getElementById('view-hall-schema');
+                updateHallSchemaLink(hallSelect, schemaLink);
+
+                setTimeout(() => {
+                    if (initialTableId) {
+                        tableSelect.value = initialTableId;
+                    }
+                }, 500);
+            }
         }, 100);
     {% endif %}
 });

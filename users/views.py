@@ -11,6 +11,9 @@ from django.core.exceptions import ObjectDoesNotExist
 from config.settings import EMAIL_HOST_USER
 import secrets
 from django.db.models import Q
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class UserCreateView(CreateView):
@@ -18,22 +21,49 @@ class UserCreateView(CreateView):
     form_class = UserRegisterForm
     success_url = reverse_lazy("users:login")
 
-    def form_valid(self, form):
-        user = form.save()
-        user.is_active = False
-        token = secrets.token_hex(16)
-        user.token = token
-        user.save()
-        host = self.request.get_host()
-        url = f'http://{host}/users/email-confirm/{token}/'
-        send_mail(
-            subject='Подтверждение почты',
-            message=f'Здравствуйте! Для завершения регистрации пожалуйста перейдите по ссылке {url}.',
-            from_email=EMAIL_HOST_USER,
-            recipient_list=[user.email]
-        )
-        return super().form_valid(form)
+    def post(self, request, *args, **kwargs):
+        logger.debug("=== DEBUG: POST request received ===")
+        return super().post(request, *args, **kwargs)
 
+    def form_invalid(self, form):
+        logger.debug("=== DEBUG: Form is invalid ===")
+        logger.debug(f"Form errors: {form.errors}")
+        logger.debug(f"Non field errors: {form.non_field_errors()}")
+        for field, errors in form.errors.items():
+            logger.debug(f"Field {field}: {errors}")
+        return super().form_invalid(form)
+
+    def form_valid(self, form):
+        logger.debug("=== DEBUG: Form is valid ===")
+        user = form.save(commit=False)
+        user.is_active = False
+        user.token = secrets.token_hex(16)
+        user.save()
+
+        logger.debug("=== DEBUG: Starting email sending ===")
+        logger.debug(f"User: {user.email}")
+        logger.debug(f"Token: {user.token}")
+
+        from django.conf import settings
+        url = f'{settings.SITE_URL}/users/email-confirm/{user.token}/'
+        logger.debug(f"Confirmation URL: {url}")
+        logger.debug(f"EMAIL_HOST: {settings.EMAIL_HOST}")
+        logger.debug(f"EMAIL_HOST_USER: {settings.EMAIL_HOST_USER}")
+
+        try:
+            send_mail(
+                subject='Подтверждение почты',
+                message=f'Здравствуйте! Для завершения регистрации пожалуйста перейдите по ссылке {url}.',
+                from_email=settings.EMAIL_HOST_USER,
+                recipient_list=[user.email],
+                fail_silently=False,
+            )
+            logger.debug("=== DEBUG: Email sent successfully ===")
+
+        except Exception as e:
+            logger.error(f"=== DEBUG: Email sending failed: {e} ===")
+
+        return super().form_valid(form)
 
 class UserDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = User
@@ -105,6 +135,9 @@ class UserDeleteView(DeleteView):
 
     def get_object(self, queryset=None):
         return self.request.user
+
+
+from django.contrib import messages
 
 
 def email_verification(request, token):

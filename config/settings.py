@@ -10,12 +10,42 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+if not os.environ.get('RUNNING_IN_DOCKER'):
+    env_file = '.env.prod' if os.environ.get('DJANGO_ENV') == 'production' else '.env'
+    load_dotenv(Path(__file__).parent.parent / env_file)
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG',  # ← ИЗМЕНИТЕ на DEBUG
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'users': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+    },
+}
 
 
 INSTALLED_APPS = [
@@ -66,7 +96,7 @@ DATABASES = {
         "NAME": os.getenv("DB_NAME"),
         "USER": os.getenv("DB_USER"),
         "PASSWORD": os.getenv("DB_PASSWORD"),
-        "HOST": os.getenv("DB_HOST"),
+        'HOST': os.getenv('DB_HOST', 'localhost'),
         "PORT": os.getenv("DB_PORT"),
     }
 }
@@ -122,11 +152,11 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 EMAIL_HOST = os.getenv('EMAIL_HOST')
-EMAIL_PORT = os.getenv('EMAIL_PORT')
+EMAIL_PORT = int(os.getenv('EMAIL_PORT', 465))
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
-EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS',False) == 'True'
-EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL',False) == 'True'
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'False').lower() == 'true'
+EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL', 'True').lower() == 'true'
 ADMIN_EMAIL = os.getenv('ADMIN_EMAIL', '')
 SITE_URL = os.getenv('SITE_URL', 'http://localhost:8000')
 
@@ -136,12 +166,12 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 CELERY_TIMEZONE = TIME_ZONE
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
-CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
-CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND")
+CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL')
+CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND')
 
 CELERY_BEAT_SCHEDULE = {
     "send_reservation_reminders": {
         "task": "reservation.tasks.send_reservation_reminders",
-        "schedule": crontab(hour=8, minute=0),  # Каждый день в 8:00 утра
+        "schedule": crontab(minute="*"), # Каждый день в 8:00 утра
     },
 }

@@ -4,9 +4,18 @@ from users.models import User
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        user = User.objects.create(email='admin@example.com')
-        user.set_password('123qwe')
-        user.is_active = True
-        user.is_staff = True
-        user.is_superuser = True
-        user.save()
+        if not User.objects.filter(email='admin@example.com').exists():
+            user = User.objects.create(
+                email='admin@example.com',
+                first_name='Admin',
+                is_active=True,
+                is_staff=True,
+                is_superuser=True
+            )
+            user.set_password('123qwe')
+            user.save()
+            self.stdout.write(
+                self.style.SUCCESS('Суперпользователь создан: admin@example.com / 123qwe')
+            )
+        else:
+            self.stdout.write('Суперпользователь уже существует')

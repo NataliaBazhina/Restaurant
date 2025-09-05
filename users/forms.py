@@ -1,5 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
+from django.core.exceptions import ValidationError
+
 from reservation.forms import StyleFormMixin
 from users.models import User
 
@@ -21,6 +23,12 @@ class UserRegisterForm(StyleFormMixin, UserCreationForm):
     class Meta:
         model = User
         fields = ('email', 'first_name', 'last_name', 'phone', 'password1', 'password2')
+
+        def clean_email(self):
+            email = self.cleaned_data.get('email')
+            if User.objects.filter(email=email, is_active=True).exists():
+                raise ValidationError("Пользователь с таким email уже зарегистрирован.")
+            return email
 
 
 class UserChangePasswordForm(forms.Form):

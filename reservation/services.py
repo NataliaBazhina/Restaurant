@@ -1,9 +1,11 @@
 from django.core.mail import send_mail
 from django.conf import settings
+from django.urls import reverse
 
 
 def send_confirmation_email(reservation):
     """Отправка email с ссылкой подтверждения"""
+    confirmation_url = f"{settings.SITE_URL}{reverse('reservation:confirm_reservation', kwargs={'reservation_id': reservation.id})}"
     subject = 'Подтвердите вашу бронь на сегодня'
     message = f'''
 Подтвердите бронь на сегодня!
@@ -14,7 +16,7 @@ def send_confirmation_email(reservation):
 Гостей: {reservation.guests_count}
 
 Для подтверждения перейдите по ссылке:
-{settings.SITE_URL}/confirm-reservation/{reservation.id}/
+{confirmation_url}
 
 Если не подтвердите, бронь будет автоматически отменена.
 '''

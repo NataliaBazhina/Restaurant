@@ -65,6 +65,7 @@ class UserCreateView(CreateView):
 
         return super().form_valid(form)
 
+
 class UserDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = User
     template_name = "users/user_detail.html"
@@ -135,9 +136,6 @@ class UserDeleteView(DeleteView):
 
     def get_object(self, queryset=None):
         return self.request.user
-
-
-from django.contrib import messages
 
 
 def email_verification(request, token):

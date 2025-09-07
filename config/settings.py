@@ -172,6 +172,9 @@ CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND')
 CELERY_BEAT_SCHEDULE = {
     "send_reservation_reminders": {
         "task": "reservation.tasks.send_reservation_reminders",
-        "schedule": crontab(minute="*"), # Каждый день в 8:00 утра
+        "schedule": crontab(minute="*"), # Можно поменять на 8:00 утра
     },
 }
+
+CELERY_TASK_ALWAYS_EAGER = True
+CELERY_TASK_EAGER_PROPAGATES = True

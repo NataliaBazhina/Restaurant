@@ -82,7 +82,13 @@ class ReservationCreateView(LoginRequiredMixin, CreateView):
         try:
             reservation = form.save(commit=False)
             reservation.user = self.request.user
-            if reservation.date == timezone.now().date():
+
+            # Простое решение - используем date.today() вместо timezone
+            today = date.today()
+
+            print(f"Today: {today}, Reservation date: {reservation.date}, Equal: {reservation.date == today}")
+
+            if reservation.date == today:
                 reservation.status = 'confirmed'
                 message = f"Бронь подтверждена! Столик #{reservation.table.number}"
             else:
@@ -138,14 +144,22 @@ class ReservationUpdateView(LoginRequiredMixin, UpdateView):
         return kwargs
 
     def form_valid(self, form):
-        reservation = form.save(commit=False)
-        original_duration = Reservation.objects.get(pk=self.object.pk).duration
-        if self.request.user.is_staff and original_duration != reservation.duration:
-            reservation.extended_by_admin = True
-            messages.info(self.request, f"Длительность брони изменена. Новое время окончания: {reservation.end_time}")
-        reservation.save()
-        messages.success(self.request, "Бронь успешно обновлена!")
-        return redirect(self.get_success_url())
+        try:
+            reservation = form.save(commit=False)
+            original_duration = Reservation.objects.get(pk=self.object.pk).duration
+            if self.request.user.is_staff and original_duration != reservation.duration:
+                reservation.extended_by_admin = True
+                messages.info(self.request,
+                              f"Длительность брони изменена. Новое время окончания: {reservation.end_time}")
+
+            reservation.save()
+            messages.success(self.request, "Бронь успешно обновлена!")
+            return redirect(self.get_success_url())
+
+        except IntegrityError:
+            form.add_error(None,
+                           'Произошла ошибка при сохранении. Возможно, столик на это время уже был забронирован кем-то другим. Пожалуйста, попробуйте еще раз.')
+            return self.form_invalid(form)
 
 
 class ReservationDeleteView(LoginRequiredMixin, DeleteView):
@@ -252,6 +266,7 @@ class FeedbackThanksView(TemplateView):
 
 class MenuView(TemplateView):
     template_name = "reservation/menu.html"
+
 
 def hall_schema(request, hall_id):
     hall = get_object_or_404(Hall, id=hall_id)

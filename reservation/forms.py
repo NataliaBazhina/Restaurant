@@ -62,9 +62,11 @@ class ReservationForm(StyleFormMixin, forms.ModelForm):
 
         if self.instance and self.instance.pk and self.instance.table:
             self.fields['hall'].initial = self.instance.table.hall
+
+        # Для обычных пользователей делаем поле только для чтения и меняем help_text
         if not (self.user and self.user.is_staff):
             self.fields['duration'].widget.attrs['readonly'] = True
-            self.fields['duration'].help_text = "Только для администраторов"
+            self.fields['duration'].help_text = "Продлить бронирование может только администратор"
 
     def clean(self):
         """

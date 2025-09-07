@@ -97,22 +97,20 @@
                                     {% endif %}
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="form-label">Длительность *</label>
-                                    {{ form.duration }}
-                                    {% if form.duration.errors %}
-                                    <div class="error-text">{{ form.duration.errors }}</div>
-                                    {% endif %}
-                                    <small class="form-text">
-                                        {% if form.instance.date and form.instance.start_time %}
-                                            Время окончания: {{ form.instance.end_time|time:"H:i" }}
-                                        {% else %}
-                                        {% endif %}
-                                    </small>
-                                </div>
-                            </div>
-                        </div>
+<div class="col-md-6">
+    <div class="form-group">
+        <label class="form-label">Длительность *</label>
+        {{ form.duration }}
+        {% if form.duration.errors %}
+        <div class="error-text">{{ form.duration.errors }}</div>
+        {% endif %}
+        <small class="form-text">
+            {% if form.instance.date and form.instance.start_time %}
+                Время окончания: {{ form.instance.end_time|time:"H:i" }}
+            {% endif %}
+        </small>
+    </div>
+</div>
 
                         <!-- Событие -->
                         <div class="row">

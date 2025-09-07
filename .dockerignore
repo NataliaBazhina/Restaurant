@@ -1,0 +1,28 @@
+# Environment files
+.env
+.env.docker
+*.env
+
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+venv/
+env/
+
+# Database
+*.sqlite3
+*.db
+
+# Static files
+staticfiles/
+media/
+
+# OS
+.DS_Store
+Thumbs.db
